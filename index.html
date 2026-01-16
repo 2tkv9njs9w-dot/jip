@@ -30,9 +30,11 @@
 
     <div id="page-login" class="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-500 to-orange-700 p-6">
         <div class="bg-white p-10 rounded-[3.5rem] shadow-2xl w-full max-w-sm text-center border-b-8 border-orange-200">
-            <div class="w-28 h-28 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl border-4 border-orange-100">
-                <i class="fas fa-bowl-food text-white text-5xl"></i>
+            
+            <div class="w-28 h-28 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl border-4 border-orange-100 overflow-hidden p-2">
+                <img src="https://voluntary-gray-s9ohiwocpj.edgeone.app/IMG_0333.jpeg" alt="Logo" class="w-full h-full object-contain">
             </div>
+
             <h1 class="text-3xl font-black text-slate-800 italic uppercase">ເຂົ້າປຽກຈິບໆ</h1>
             <p class="text-orange-500 mb-8 font-bold text-[10px] uppercase tracking-[0.3em]">Premium Experience</p>
             
@@ -45,7 +47,7 @@
                             class="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-xl outline-none focus:border-orange-500 transition-all">
                     </div>
                 </div>
-                <button onclick="checkLogin()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black shadow-xl active-scale text-lg">ເຂົ້າສູ່ລະບົບ</button>
+                <button onclick="checkLogin()" class="w-full bg-[#1a1c2e] text-white py-4 rounded-2xl font-black shadow-xl active-scale text-lg">ເຂົ້າສູ່ລະບົບ</button>
             </div>
         </div>
     </div>
@@ -54,7 +56,9 @@
         <div class="max-w-6xl mx-auto">
             <header class="flex justify-between items-center mb-10 px-2">
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-orange-600 rounded-2xl flex items-center justify-center shadow-lg"><i class="fas fa-bowl-food text-white"></i></div>
+                    <div class="w-12 h-12 bg-orange-600 rounded-2xl flex items-center justify-center shadow-lg overflow-hidden p-1">
+                        <img src="https://voluntary-gray-s9ohiwocpj.edgeone.app/IMG_0333.jpeg" alt="Logo" class="w-full h-full object-contain">
+                    </div>
                     <h1 class="text-2xl font-black text-slate-800 italic uppercase">ເລືອກໂຕະສັ່ງ</h1>
                 </div>
                 <div class="flex gap-3">
@@ -129,8 +133,8 @@
                 <h2 class="text-3xl font-black italic">ຍອດຂາຍ</h2>
                 <button onclick="showPage('page-table')" class="bg-white px-6 py-3 rounded-2xl border-2 font-black active-scale shadow-sm">ກັບຄືນ</button>
             </header>
-            <div class="grid grid-cols-2 gap-6 mb-10">
-                 <div class="bg-slate-900 p-8 rounded-[3rem] text-white shadow-2xl text-center">
+            <div class="grid grid-cols-2 gap-6 mb-10 text-center">
+                 <div class="bg-slate-900 p-8 rounded-[3rem] text-white shadow-2xl">
                     <p class="text-[10px] text-orange-400 font-black uppercase mb-1">ຍອດມື້ນີ້</p>
                     <h1 id="report-total-today" class="text-2xl font-black italic">0 KIP</h1>
                 </div>
@@ -202,20 +206,17 @@
             });
         }
 
-        // --- ແກ້ໄຂການສະແດງເມນູ ໃຫ້ແຍກໝວດໝູ່ຊັດເຈນ ---
         function renderMenus() {
             const filtered = allMenus.filter(m => currentCategory === "ທັງໝົດ" || m.category === currentCategory);
             const container = document.getElementById('menu-list');
-            
             if (filtered.length === 0) {
                 container.innerHTML = `<div class="col-span-full py-20 text-center text-slate-300 font-bold italic">ບໍ່ມີລາຍການໃນໝວດນີ້</div>`;
                 return;
             }
-
             container.innerHTML = filtered.map(m => `
                 <div onclick="addToCart('${m.name}', ${m.price})" class="bg-white rounded-[2rem] shadow-sm border border-slate-100 active-scale overflow-hidden text-center flex flex-col h-full hover:shadow-md transition-shadow">
-                    <div class="w-full h-24 md:h-36 bg-slate-50 flex items-center justify-center overflow-hidden">
-                        ${m.img ? `<img src="${m.img}" class="w-full h-full object-cover">` : `<i class="fas fa-image text-slate-200 text-3xl"></i>`}
+                    <div class="w-full h-24 md:h-36 bg-slate-50 flex items-center justify-center overflow-hidden text-slate-300">
+                        ${m.img ? `<img src="${m.img}" class="w-full h-full object-cover">` : `<i class="fas fa-image text-3xl"></i>`}
                     </div>
                     <div class="p-4">
                         <div class="font-black text-slate-800 text-[11px] md:text-xs truncate uppercase leading-tight">${m.name}</div>
@@ -243,8 +244,8 @@
                 total += itemTotal;
                 return `
                 <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <div class="flex-1 min-w-0 pr-3">
-                        <p class="font-black text-slate-800 text-xs truncate uppercase">${item.name}</p>
+                    <div class="flex-1 min-w-0 pr-3 text-left">
+                        <p class="font-black text-slate-800 text-xs uppercase">${item.name}</p>
                         <p class="text-[10px] text-slate-400 font-bold mt-1">
                             ${item.price.toLocaleString()} x ${item.qty} = <span class="text-orange-600">${itemTotal.toLocaleString()}</span>
                         </p>
@@ -269,9 +270,7 @@
         async function clearTable() {
             if(confirm(`ທ່ານຕ້ອງການລຶບອໍເດີທັງໝົດຂອງ ${currentTable} ແລະ ໃຫ້ເປັນໂຕະວ່າງແມ່ນບໍ?`)) {
                 await db.ref('activeOrders/' + currentTable).remove();
-                cart = [];
-                showToast("🗑️ ລ້າງໂຕະສຳເລັດ");
-                showPage('page-table');
+                cart = []; renderCart(); showToast("🗑️ ລ້າງໂຕະສຳເລັດ"); showPage('page-table');
             }
         }
 
