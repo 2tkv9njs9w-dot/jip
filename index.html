@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jip Jip POS - Mobile App Style</title>
+    <title>Jip Jip POS - Logo Version</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
@@ -14,8 +14,6 @@
         .hidden { display: none !important; }
         .active-scale:active { transform: scale(0.95); transition: 0.1s; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        /* Animation ສໍາລັບກະຕ່າທີ່ສະໄລ້ຂຶ້ນມາ */
         #cart-sheet { transition: transform 0.3s ease-in-out; transform: translateY(100%); }
         #cart-sheet.open { transform: translateY(0); }
         .overlay { background: rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: 0.3s; }
@@ -26,32 +24,37 @@
 
     <section id="page-login" class="fixed inset-0 bg-orange-600 flex items-center justify-center p-6 z-[100]">
         <div class="bg-white p-10 rounded-[3rem] w-full max-w-xs text-center shadow-2xl">
-            <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 text-orange-600 text-3xl">
-                <i class="fas fa-store"></i>
+            <div class="mb-6">
+                <img src="https://voluntary-gray-s9ohiwocpj.edgeone.app/IMG_0333.jpeg" 
+                     alt="Store Logo" 
+                     style="display: block; margin: 0 auto;"
+                     class="w-24 h-24 rounded-full object-cover border-4 border-orange-50 shadow-lg">
             </div>
-            <h1 class="text-xl font-black mb-6">ເຂົ້າປຽກຈິບໆ</h1>
-            <input type="password" id="login-pass" placeholder="ລະຫັດຜ່ານ" class="w-full p-4 bg-slate-100 rounded-2xl mb-4 text-center outline-none border-2 border-transparent focus:border-orange-500">
-            <button onclick="checkLogin()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black active-scale">ເຂົ້າສູ່ລະບົບ</button>
+            <h1 class="text-xl font-black mb-6 italic uppercase">ເຂົ້າປຽກຈິບໆ</h1>
+            <input type="password" id="login-pass" placeholder="ລະຫັດຜ່ານ" class="w-full p-4 bg-slate-100 rounded-2xl mb-4 text-center outline-none border-2 border-transparent focus:border-orange-500 text-xl font-bold">
+            <button onclick="checkLogin()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black active-scale shadow-lg">ເຂົ້າສູ່ລະບົບ</button>
         </div>
     </section>
 
     <section id="page-table" class="hidden fixed inset-0 flex flex-col p-6 overflow-hidden">
         <header class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-black italic">ເລືອກໂຕະ</h1>
+            <div class="flex items-center gap-3">
+                <img src="https://voluntary-gray-s9ohiwocpj.edgeone.app/IMG_0333.jpeg" class="w-10 h-10 rounded-xl object-cover shadow-sm">
+                <h1 class="text-2xl font-black italic">ເລືອກໂຕະ</h1>
+            </div>
             <div class="flex gap-2">
-                <button onclick="showPage('page-report')" class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-emerald-500 border"><i class="fas fa-chart-pie"></i></button>
-                <button onclick="showPage('page-admin')" class="w-10 h-10 bg-slate-900 rounded-xl shadow-lg flex items-center justify-center text-white"><i class="fas fa-cog"></i></button>
+                <button onclick="showPage('page-report')" class="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-emerald-500 border active-scale"><i class="fas fa-chart-pie text-lg"></i></button>
+                <button onclick="showPage('page-admin')" class="w-10 h-10 bg-slate-900 rounded-xl shadow-lg flex items-center justify-center text-white active-scale"><i class="fas fa-cog"></i></button>
             </div>
         </header>
-        <div id="table-grid" class="grid grid-cols-2 gap-4 overflow-y-auto no-scrollbar pb-10">
-            </div>
+        <div id="table-grid" class="grid grid-cols-2 gap-4 overflow-y-auto no-scrollbar pb-10"></div>
     </section>
 
     <section id="page-pos" class="hidden fixed inset-0 flex flex-col bg-slate-50 overflow-hidden">
         <header class="bg-white p-4 flex justify-between items-center border-b shadow-sm">
             <div class="flex items-center gap-3">
                 <button onclick="backToTable()" class="w-10 h-10 flex items-center justify-center text-slate-400 active-scale"><i class="fas fa-chevron-left text-xl"></i></button>
-                <h2 id="pos-table-name" class="font-black text-lg italic uppercase">ໂຕະ 1</h2>
+                <h2 id="pos-table-name" class="font-black text-lg italic uppercase">ໂຕະ...</h2>
             </div>
             <div class="flex gap-1 bg-slate-100 p-1 rounded-xl">
                 <button onclick="filterMenu('ທັງໝົດ')" class="cat-btn px-4 py-1.5 rounded-lg text-[10px] font-black bg-white shadow-sm">ທັງໝົດ</button>
@@ -60,8 +63,7 @@
             </div>
         </header>
 
-        <div id="menu-list" class="flex-1 overflow-y-auto p-4 grid grid-cols-1 gap-4 no-scrollbar pb-24">
-            </div>
+        <div id="menu-list" class="flex-1 overflow-y-auto p-4 grid grid-cols-1 gap-4 no-scrollbar pb-32"></div>
 
         <div id="cart-bar" onclick="toggleCart()" class="fixed bottom-6 left-6 right-6 bg-slate-900 h-16 rounded-2xl flex items-center justify-between px-6 shadow-2xl z-40 active-scale cursor-pointer">
             <div class="flex items-center gap-3 text-white">
@@ -81,11 +83,10 @@
         <div id="cart-sheet" class="fixed bottom-0 left-0 right-0 bg-white rounded-t-[3rem] shadow-2xl z-[50] flex flex-col max-h-[85vh]">
             <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto my-4" onclick="toggleCart()"></div>
             <div class="px-6 py-2 flex justify-between items-center border-b">
-                <h3 class="font-black text-lg italic">ລາຍການທີ່ສັ່ງ</h3>
+                <h3 class="font-black text-lg italic uppercase">ລາຍການທີ່ສັ່ງ</h3>
                 <button onclick="clearTable()" class="text-red-500 text-[10px] font-black uppercase">ລ້າງທັງໝົດ</button>
             </div>
-            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
-                </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar"></div>
             <div class="p-8 bg-slate-50 border-t space-y-4">
                 <div class="grid grid-cols-2 gap-4">
                     <button onclick="saveCurrentOrder()" class="bg-slate-200 text-slate-800 py-4 rounded-2xl font-black active-scale text-xs">ບັນທຶກໄວ້</button>
@@ -96,32 +97,47 @@
     </section>
 
     <section id="page-admin" class="hidden fixed inset-0 bg-slate-100 p-6 overflow-y-auto no-scrollbar">
-        <button onclick="showPage('page-table')" class="mb-6 font-bold text-slate-400"><i class="fas fa-arrow-left"></i> ກັບຄືນ</button>
-        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm mb-6">
+        <button onclick="showPage('page-table')" class="mb-6 font-bold text-slate-400 active-scale"><i class="fas fa-arrow-left"></i> ກັບຄືນ</button>
+        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm mb-6 border">
             <h2 class="text-xl font-black mb-6 italic">ເພີ່ມເມນູໃໝ່</h2>
             <div class="space-y-4">
-                <input type="text" id="admin-name" placeholder="ຊື່ເມນູ" class="w-full p-4 bg-slate-50 rounded-2xl outline-none">
-                <input type="text" id="admin-price" placeholder="ລາຄາ (ເຊັ່ນ: 40000,45000,50000)" class="w-full p-4 bg-slate-50 rounded-2xl outline-none">
-                <select id="admin-category" class="w-full p-4 bg-slate-50 rounded-2xl font-bold">
+                <input type="text" id="admin-name" placeholder="ຊື່ເມນູ" class="w-full p-4 bg-slate-50 rounded-2xl outline-none border focus:border-orange-500">
+                <input type="text" id="admin-price" placeholder="ລາຄາ (ເຊັ່ນ: 40000,45000,50000)" class="w-full p-4 bg-slate-50 rounded-2xl outline-none border focus:border-orange-500">
+                <select id="admin-category" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border text-sm">
                     <option value="ອາຫານ">ອາຫານ</option>
                     <option value="ເຄື່ອງດື່ມ">ເຄື່ອງດື່ມ</option>
                 </select>
-                <button onclick="handleSaveMenu()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-black">ບັນທຶກ</button>
+                <button onclick="handleSaveMenu()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-black active-scale">ບັນທຶກເມນູ</button>
             </div>
         </div>
         <div id="admin-display-list" class="space-y-2 pb-10"></div>
     </section>
 
     <section id="page-report" class="hidden fixed inset-0 bg-white p-6 overflow-y-auto no-scrollbar">
-        <button onclick="showPage('page-table')" class="mb-6 font-bold text-slate-400"><i class="fas fa-arrow-left"></i> ກັບຄືນ</button>
+        <div class="flex justify-between items-center mb-6">
+            <button onclick="showPage('page-table')" class="font-bold text-slate-400 active-scale"><i class="fas fa-arrow-left"></i> ກັບຄືນ</button>
+            <h2 class="text-xl font-black italic text-slate-800">ລາຍງານຍອດຂາຍ</h2>
+        </div>
+
+        <div class="bg-slate-100 p-4 rounded-3xl mb-6 flex items-center justify-between border border-slate-200">
+            <span class="text-[10px] font-black text-slate-500 uppercase ml-2 italic">ເລືອກວັນທີ:</span>
+            <input type="date" id="report-date-input" onchange="loadReports()" class="bg-white px-4 py-2 rounded-2xl font-black text-sm outline-none shadow-sm border-none">
+        </div>
+
         <div id="report-summary" class="mb-6"></div>
+
+        <div class="flex items-center gap-2 mb-4">
+            <div class="h-[1px] flex-1 bg-slate-100"></div>
+            <span class="text-[10px] font-black text-slate-300 uppercase italic">ລາຍການບິນ</span>
+            <div class="h-[1px] flex-1 bg-slate-100"></div>
+        </div>
+
         <div id="report-container" class="space-y-3 pb-10"></div>
     </section>
 
     <div id="toast" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900 text-white px-8 py-4 rounded-3xl font-black text-xs hidden z-[200] shadow-2xl text-center"></div>
 
     <script>
-        // --- FIREBASE CONFIG ---
         const firebaseConfig = {
             apiKey: "AIzaSyDrkORCwmsdCsdpH81Y40kaDpgrHU-U6ps",
             authDomain: "khaopiakpos.firebaseapp.com",
@@ -136,7 +152,11 @@
 
         let allMenus = [], cart = [], currentTable = "", currentCategory = "ທັງໝົດ", isChanged = false;
 
-        // --- NAVIGATION ---
+        window.onload = () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('report-date-input').value = today;
+        };
+
         function showPage(id) {
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
@@ -150,10 +170,8 @@
         }
 
         function toggleCart() {
-            const sheet = document.getElementById('cart-sheet');
-            const overlay = document.getElementById('cart-overlay');
-            sheet.classList.toggle('open');
-            overlay.classList.toggle('show');
+            document.getElementById('cart-sheet').classList.toggle('open');
+            document.getElementById('cart-overlay').classList.toggle('show');
         }
 
         function showToast(msg) {
@@ -162,46 +180,40 @@
             setTimeout(() => t.classList.add('hidden'), 1200);
         }
 
-        // --- RENDER MENU (Card Style) ---
         function renderMenus() {
             const container = document.getElementById('menu-list');
             const filtered = allMenus.filter(m => currentCategory === "ທັງໝົດ" || m.category === currentCategory);
-            
             container.innerHTML = filtered.map(m => {
                 const prices = String(m.price).split(',').map(p => parseInt(p.replace(/[^0-9]/g, '')) || 0);
                 const isFood = m.category === 'ອາຫານ';
-
                 return `
                 <div class="bg-white rounded-[2rem] border p-5 shadow-sm flex flex-col gap-4">
                     <div class="flex justify-between items-start">
                         <h4 class="font-black text-slate-800 text-lg italic uppercase">${m.name}</h4>
-                        <span class="text-[9px] font-black text-orange-500 bg-orange-50 px-3 py-1 rounded-full uppercase">${m.category}</span>
+                        <span class="text-[9px] font-black text-orange-500 bg-orange-50 px-3 py-1 rounded-full uppercase italic">${m.category}</span>
                     </div>
                     <div class="grid ${isFood ? 'grid-cols-3' : 'grid-cols-1'} gap-3">
                         ${isFood ? `
-                            <button onclick="addToCart('${m.name}', ${prices[0]}, 'ນ້ອຍ')" class="flex flex-col items-center bg-slate-50 py-3 rounded-2xl active-scale border border-slate-100">
+                            <button onclick="addToCart('${m.name}', ${prices[0]}, 'ນ້ອຍ')" class="bg-slate-50 py-3 rounded-2xl active-scale border border-slate-100 flex flex-col items-center">
                                 <span class="text-[9px] font-bold text-slate-400">ນ້ອຍ</span>
                                 <span class="text-xs font-black">${(prices[0]/1000)}k</span>
                             </button>
-                            <button onclick="addToCart('${m.name}', ${prices[1]||prices[0]}, 'ກາງ')" class="flex flex-col items-center bg-orange-50 py-3 rounded-2xl active-scale border border-orange-100">
-                                <span class="text-[9px] font-bold text-orange-400">ກາງ</span>
-                                <span class="text-xs font-black text-orange-600">${(prices[1]||prices[0])/1000}k</span>
+                            <button onclick="addToCart('${m.name}', ${prices[1]||prices[0]}, 'ກາງ')" class="bg-orange-50 py-3 rounded-2xl active-scale border border-orange-100 flex flex-col items-center text-orange-600">
+                                <span class="text-[9px] font-bold">ກາງ</span>
+                                <span class="text-xs font-black">${(prices[1]||prices[0])/1000}k</span>
                             </button>
-                            <button onclick="addToCart('${m.name}', ${prices[2]||prices[0]}, 'ໃຫຍ່')" class="flex flex-col items-center bg-slate-50 py-3 rounded-2xl active-scale border border-slate-100">
+                            <button onclick="addToCart('${m.name}', ${prices[2]||prices[0]}, 'ໃຫຍ່')" class="bg-slate-50 py-3 rounded-2xl active-scale border border-slate-100 flex flex-col items-center">
                                 <span class="text-[9px] font-bold text-slate-400">ໃຫຍ່</span>
                                 <span class="text-xs font-black">${(prices[2]||prices[0])/1000}k</span>
                             </button>
                         ` : `
-                            <button onclick="addToCart('${m.name}', ${prices[0]}, 'ປົກກະຕິ')" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black active-scale text-sm">
-                                ${prices[0].toLocaleString()} KIP
-                            </button>
+                            <button onclick="addToCart('${m.name}', ${prices[0]}, 'ປົກກະຕິ')" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black active-scale text-sm">${prices[0].toLocaleString()} KIP</button>
                         `}
                     </div>
                 </div>`;
             }).join('');
         }
 
-        // --- CART SYSTEM ---
         function addToCart(name, price, size) {
             const label = size === 'ປົກກະຕິ' ? name : `${name} (${size})`;
             const foundIdx = cart.findIndex(i => i.name === label);
@@ -214,22 +226,19 @@
 
         function updateCartUI() {
             const container = document.getElementById('cart-items');
-            let total = 0;
-            container.innerHTML = cart.map((item, idx) => {
-                total += (item.price * item.qty);
-                return `
+            let total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+            container.innerHTML = cart.map((item, idx) => `
                 <div class="flex justify-between items-center p-2">
-                    <div class="flex-1">
-                        <p class="font-black text-sm text-slate-800">${item.name}</p>
+                    <div class="flex-1 pr-2">
+                        <p class="font-black text-sm text-slate-800 leading-tight">${item.name}</p>
                         <p class="text-orange-600 font-bold text-xs">${item.price.toLocaleString()} KIP</p>
                     </div>
-                    <div class="flex items-center gap-4 bg-slate-100 p-2 rounded-2xl">
-                        <button onclick="updateQty(${idx}, -1)" class="w-8 h-8 flex items-center justify-center text-slate-400 active-scale"><i class="fas fa-minus"></i></button>
+                    <div class="flex items-center gap-4 bg-slate-100 p-2 rounded-2xl border">
+                        <button onclick="updateQty(${idx}, -1)" class="w-8 h-8 flex items-center justify-center text-slate-400 active-scale"><i class="fas fa-minus text-[10px]"></i></button>
                         <span class="font-black text-sm w-4 text-center">${item.qty}</span>
-                        <button onclick="updateQty(${idx}, 1)" class="w-8 h-8 flex items-center justify-center text-slate-900 active-scale"><i class="fas fa-plus"></i></button>
+                        <button onclick="updateQty(${idx}, 1)" class="w-8 h-8 flex items-center justify-center text-slate-900 active-scale"><i class="fas fa-plus text-[10px]"></i></button>
                     </div>
-                </div>`;
-            }).join('');
+                </div>`).join('');
             document.getElementById('total-price').innerText = total.toLocaleString();
             document.getElementById('cart-count-badge').innerText = cart.length;
         }
@@ -241,17 +250,12 @@
             updateCartUI();
         }
 
-        // --- ACTIONS (ກັບຄືນໜ້າເລືອກໂຕະອັດຕະໂນມັດ) ---
         async function saveCurrentOrder() {
             if (!currentTable || cart.length === 0) return;
-            await db.ref('activeOrders/' + currentTable).set({
-                table: currentTable,
-                items: cart,
-                timestamp: Date.now()
-            });
+            await db.ref('activeOrders/' + currentTable).set({ table: currentTable, items: cart, timestamp: Date.now() });
             isChanged = false;
-            showToast("ບັນທຶກແລ້ວ!");
             showPage('page-table');
+            showToast("ບັນທຶກແລ້ວ!");
         }
 
         async function checkout() {
@@ -266,23 +270,14 @@
                 });
                 await db.ref('activeOrders/' + currentTable).remove();
                 cart = []; isChanged = false;
-                showToast("ຊຳລະເງິນສຳເລັດ!");
                 showPage('page-table');
+                showToast("💰 ສຳເລັດ!");
             }
         }
 
         function backToTable() { showPage('page-table'); }
+        async function clearTable() { if(confirm("ລຶບທັງໝົດ?")) { await db.ref('activeOrders/' + currentTable).remove(); cart = []; isChanged = false; toggleCart(); showPage('page-table'); } }
 
-        async function clearTable() {
-            if(confirm("ລຶບລາຍການທັງໝົດໃນໂຕະນີ້?")) {
-                await db.ref('activeOrders/' + currentTable).remove();
-                cart = []; isChanged = false;
-                toggleCart();
-                showPage('page-table');
-            }
-        }
-
-        // --- FIREBASE LISTENERS ---
         function listenTables() {
             db.ref('activeOrders').on('value', snap => {
                 const data = snap.val() || {};
@@ -292,9 +287,9 @@
                     const name = `ໂຕະ ${i}`;
                     const active = data[name];
                     grid.innerHTML += `
-                    <div onclick="openPOS('${name}')" class="${active ? 'bg-orange-600 text-white shadow-xl scale-95' : 'bg-white text-slate-800 border-slate-100'} p-8 rounded-[2.5rem] shadow-sm text-center font-black active-scale border transition-all">
+                    <div onclick="openPOS('${name}')" class="${active ? 'bg-orange-600 text-white shadow-xl scale-95 border-orange-500' : 'bg-white text-slate-800 border-slate-100'} p-8 rounded-[2.5rem] shadow-sm text-center font-black active-scale border transition-all">
                         <p class="text-lg italic tracking-tighter uppercase">${name}</p>
-                        <p class="text-[8px] uppercase opacity-50 mt-1">${active ? 'ມີລູກຄ້າ' : 'ວ່າງ'}</p>
+                        <p class="text-[8px] uppercase opacity-50 mt-1 italic">${active ? 'ມີລູກຄ້າ' : 'ວ່າງ'}</p>
                     </div>`;
                 }
             });
@@ -306,17 +301,14 @@
             db.ref('activeOrders/' + name).once('value', snap => {
                 const d = snap.val();
                 cart = (d && d.items) ? d.items : [];
-                isChanged = false;
-                updateCartUI();
-                showPage('page-pos');
+                isChanged = false; updateCartUI(); showPage('page-pos');
             });
         }
 
         function filterMenu(c) {
             currentCategory = c;
             document.querySelectorAll('.cat-btn').forEach(b => {
-                const isMatch = b.innerText.includes(c);
-                b.className = isMatch ? 'cat-btn px-4 py-1.5 rounded-lg text-[10px] font-black bg-slate-900 text-white shadow-lg' : 'cat-btn px-4 py-1.5 rounded-lg text-[10px] font-black text-slate-400';
+                b.className = b.innerText.includes(c) ? 'cat-btn px-4 py-1.5 rounded-lg text-[10px] font-black bg-slate-900 text-white shadow-lg' : 'cat-btn px-4 py-1.5 rounded-lg text-[10px] font-black text-slate-400';
             });
             renderMenus();
         }
@@ -325,8 +317,8 @@
             allMenus = snap.val() ? Object.values(snap.val()) : [];
             renderMenus();
             document.getElementById('admin-display-list').innerHTML = allMenus.map(m => `
-                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border mb-2">
-                    <span class="text-[10px] font-black">${m.name}</span>
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border mb-2 shadow-sm">
+                    <span class="text-[10px] font-black italic">${m.name}</span>
                     <button onclick="db.ref('menus/${m.id}').remove()" class="text-red-400 p-2"><i class="fas fa-trash-alt"></i></button>
                 </div>`).join('');
         });
@@ -340,28 +332,44 @@
                 await ref.set({ id: ref.key, name, price, category });
                 document.getElementById('admin-name').value = '';
                 document.getElementById('admin-price').value = '';
-                showToast("ເພີ່ມສຳເລັດ!");
+                showToast("ເພີ່ມແລ້ວ!");
             }
         }
 
         function loadReports() {
+            const selectedDate = document.getElementById('report-date-input').value;
+            if (!selectedDate) return;
+            const formattedDate = new Date(selectedDate).toLocaleDateString();
+
             db.ref('sales').on('value', snap => {
                 const data = snap.val() || {};
-                const sales = Object.values(data).sort((a,b) => b.timestamp - a.timestamp);
-                const total = sales.reduce((acc, s) => acc + s.total, 0);
+                const allSales = Object.values(data);
+                const filteredSales = allSales.filter(s => s.date === formattedDate).sort((a,b) => b.timestamp - a.timestamp);
+                const dailyTotal = filteredSales.reduce((acc, s) => acc + s.total, 0);
+
                 document.getElementById('report-summary').innerHTML = `
-                    <div class="bg-slate-900 p-8 rounded-[2.5rem] text-white shadow-2xl">
-                        <p class="text-[10px] font-black uppercase text-orange-400 mb-2">ຍອດຂາຍທັງໝົດ</p>
-                        <h2 class="text-3xl font-black italic">${total.toLocaleString()} KIP</h2>
+                    <div class="bg-slate-900 p-8 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-orange-50 rounded-full opacity-20"></div>
+                        <p class="text-[10px] font-black uppercase text-orange-400 mb-2 relative z-10 italic">ຍອດຂາຍປະຈຳວັນ</p>
+                        <h2 class="text-3xl font-black italic relative z-10">${dailyTotal.toLocaleString()} KIP</h2>
+                        <p class="text-[10px] text-slate-400 mt-2 italic font-bold">ລວມທັງໝົດ: ${filteredSales.length} ບິນ</p>
                     </div>`;
-                document.getElementById('report-container').innerHTML = sales.map(s => `
-                    <div class="bg-slate-50 p-5 rounded-2xl border flex justify-between items-center">
-                        <div class="text-left">
-                            <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-[8px] font-black">${s.table}</span>
-                            <p class="text-[9px] text-slate-500 mt-2 font-bold">${s.items}</p>
-                        </div>
-                        <p class="font-black text-slate-900 text-sm">${s.total.toLocaleString()}</p>
-                    </div>`).join('');
+
+                if (filteredSales.length === 0) {
+                    document.getElementById('report-container').innerHTML = `<div class="py-20 text-center text-slate-300"><i class="fas fa-folder-open text-5xl mb-3"></i><p class="font-bold">ບໍ່ມີຂໍ້ມູນໃນມື້ນີ້</p></div>`;
+                } else {
+                    document.getElementById('report-container').innerHTML = filteredSales.map(s => `
+                        <div class="bg-slate-50 p-5 rounded-[2rem] border border-slate-100 flex justify-between items-center shadow-sm">
+                            <div class="text-left flex-1 pr-4">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="bg-orange-100 text-orange-600 px-3 py-0.5 rounded-full text-[9px] font-black">${s.table}</span>
+                                    <span class="text-[8px] text-slate-300 font-bold">${new Date(s.timestamp).toLocaleTimeString()}</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 font-bold line-clamp-1">${s.items}</p>
+                            </div>
+                            <p class="font-black text-slate-900 text-sm italic">${s.total.toLocaleString()}</p>
+                        </div>`).join('');
+                }
             });
         }
 
