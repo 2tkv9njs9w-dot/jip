@@ -3,154 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ຮ້ານເຂົ້າປຽກຈິບໆ - POS</title>
+    <title>Khao Piak Jip Jip POS - Fixed Version</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;700&display=swap');
-        body { font-family: 'Noto Sans Lao', sans-serif; background-color: #f1f5f9; overflow-x: hidden; }
-        .hidden { display: none; }
+        body { font-family: 'Noto Sans Lao', sans-serif; background-color: #f8fafc; user-select: none; }
+        .hidden { display: none !important; }
         .active-scale:active { transform: scale(0.95); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        @media (max-width: 768px) {
-            .pos-container { flex-direction: column; height: 100vh; }
-            .menu-section { width: 100% !important; flex: 1; overflow-y: auto; padding-bottom: 250px; }
-            .cart-section { 
-                width: 100% !important; height: auto; position: fixed; bottom: 0; left: 0; z-index: 50;
-                background: white; border-radius: 2.5rem 2.5rem 0 0; box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
-            }
-            .cart-scroll { max-height: 180px; overflow-y: auto; }
-        }
     </style>
 </head>
-<body>
+<body class="overflow-hidden">
 
-    <div id="page-login" class="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-500 to-orange-700 p-6">
-        <div class="bg-white p-10 rounded-[3.5rem] shadow-2xl w-full max-w-sm text-center border-b-8 border-orange-200">
-            
-            <div class="w-28 h-28 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl border-4 border-orange-100 overflow-hidden p-2">
-                <img src="https://voluntary-gray-s9ohiwocpj.edgeone.app/IMG_0333.jpeg" alt="Logo" class="w-full h-full object-contain">
-            </div>
-
-            <h1 class="text-3xl font-black text-slate-800 italic uppercase">ເຂົ້າປຽກຈິບໆ</h1>
-            <p class="text-orange-500 mb-8 font-bold text-[10px] uppercase tracking-[0.3em]">Premium Experience</p>
-            
-            <div class="space-y-4 text-left">
-                <div class="relative">
-                    <label class="text-[10px] font-black text-slate-400 ml-4 mb-1 block uppercase">Security Login</label>
-                    <div class="relative">
-                        <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"><i class="fas fa-lock text-sm"></i></span>
-                        <input type="password" id="login-pass" placeholder="ລະຫັດຜ່ານ" 
-                            class="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-xl outline-none focus:border-orange-500 transition-all">
-                    </div>
-                </div>
-                <button onclick="checkLogin()" class="w-full bg-[#1a1c2e] text-white py-4 rounded-2xl font-black shadow-xl active-scale text-lg">ເຂົ້າສູ່ລະບົບ</button>
+    <section id="page-login" class="flex items-center justify-center min-h-screen bg-orange-600 p-6 z-[100] relative">
+        <div class="bg-white p-12 rounded-[3.5rem] shadow-2xl w-full max-w-sm text-center border-b-8 border-orange-200">
+            <h1 class="text-2xl font-black text-slate-800 mb-10 uppercase italic">ເຂົ້າປຽກຈິບໆ</h1>
+            <div class="space-y-4">
+                <input type="password" id="login-pass" placeholder="ລະຫັດຜ່ານ" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-xl outline-none focus:border-orange-500 transition-all">
+                <button onclick="checkLogin()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black shadow-xl active-scale">ເຂົ້າສູ່ລະບົບ</button>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div id="page-table" class="hidden min-h-screen p-4 md:p-10">
-        <div class="max-w-6xl mx-auto">
-            <header class="flex justify-between items-center mb-10 px-2">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-orange-600 rounded-2xl flex items-center justify-center shadow-lg overflow-hidden p-1">
-                        <img src="https://voluntary-gray-s9ohiwocpj.edgeone.app/IMG_0333.jpeg" alt="Logo" class="w-full h-full object-contain">
-                    </div>
-                    <h1 class="text-2xl font-black text-slate-800 italic uppercase">ເລືອກໂຕະສັ່ງ</h1>
-                </div>
+    <section id="page-table" class="hidden min-h-screen p-8 overflow-y-auto">
+        <div class="max-w-7xl mx-auto">
+            <header class="flex justify-between items-center mb-10">
+                <h1 class="text-3xl font-black text-slate-900 italic uppercase">ເລືອກໂຕະ</h1>
                 <div class="flex gap-3">
-                    <button onclick="showPage('page-report')" class="w-14 h-14 bg-white rounded-2xl border shadow-sm text-emerald-600 flex items-center justify-center active-scale"><i class="fas fa-chart-pie text-xl"></i></button>
-                    <button onclick="showPage('page-admin')" class="w-14 h-14 bg-slate-900 rounded-2xl text-white shadow-lg flex items-center justify-center active-scale"><i class="fas fa-gear text-xl"></i></button>
+                    <button onclick="showPage('page-report')" class="w-12 h-12 bg-white rounded-xl shadow-sm border flex items-center justify-center text-emerald-600"><i class="fas fa-chart-line text-xl"></i></button>
+                    <button onclick="showPage('page-admin')" class="w-12 h-12 bg-slate-900 rounded-xl shadow-lg flex items-center justify-center text-white"><i class="fas fa-plus text-xl"></i></button>
                 </div>
             </header>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6" id="table-grid"></div>
         </div>
-    </div>
+    </section>
 
-    <div id="page-pos" class="hidden h-screen flex flex-col bg-slate-50">
-        <header class="bg-white border-b p-4 flex justify-between items-center px-6 sticky top-0 z-50">
-            <button onclick="showPage('page-table')" class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-500 active-scale"><i class="fas fa-chevron-left"></i></button>
-            <h2 id="pos-table-name" class="font-black text-xl text-orange-600 italic"></h2>
-            <button onclick="clearTable()" class="bg-red-50 text-red-500 px-4 py-2 rounded-xl font-black text-xs active-scale border border-red-100">ລ້າງໂຕະ</button>
-        </header>
-        
-        <nav class="bg-white border-b flex gap-2 p-4 overflow-x-auto no-scrollbar">
-            <button onclick="filterMenu('ທັງໝົດ')" class="category-btn px-8 py-2.5 rounded-2xl font-black bg-orange-600 text-white shadow-lg shrink-0">ທັງໝົດ</button>
-            <button onclick="filterMenu('ອາຫານ')" class="category-btn px-8 py-2.5 rounded-2xl font-black text-slate-500 bg-slate-100 shrink-0">ອາຫານ</button>
-            <button onclick="filterMenu('ເຄື່ອງດື່ມ')" class="category-btn px-8 py-2.5 rounded-2xl font-black text-slate-500 bg-slate-100 shrink-0">ເຄື່ອງດື່ມ</button>
-        </nav>
-
-        <main class="flex flex-1 overflow-hidden pos-container">
-            <section id="menu-list" class="menu-section p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 content-start"></section>
-            
-            <aside class="cart-section w-full md:w-[400px] bg-white border-l flex flex-col shadow-2xl">
-                <div class="p-5 border-b flex justify-between items-center bg-slate-50/50">
-                    <span class="font-black text-slate-800 text-xs uppercase">ລາຍການທີ່ເລືອກ</span>
-                    <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-[10px] font-black" id="cart-count">0</span>
+    <section id="page-pos" class="hidden h-screen flex overflow-hidden">
+        <main class="flex-1 flex flex-col bg-slate-50 overflow-hidden px-8 pt-6">
+            <header class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-4">
+                    <button onclick="backToTable()" class="w-10 h-10 bg-white rounded-xl border flex items-center justify-center text-slate-400 active-scale shadow-sm"><i class="fas fa-arrow-left"></i></button>
+                    <h2 id="pos-table-name" class="text-2xl font-black text-slate-900 italic uppercase">ໂຕະ...</h2>
                 </div>
-                <div id="cart-items" class="cart-scroll flex-1 p-4 space-y-3"></div>
-                <div class="p-6 bg-white border-t-2 border-slate-50 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-400 font-black text-xs uppercase">ລວມທັງໝົດ</span>
-                        <div class="text-right">
+                <nav class="flex gap-2 bg-white/50 p-1 rounded-xl border">
+                    <button onclick="filterMenu('ທັງໝົດ')" class="cat-btn px-6 py-2 rounded-lg font-black text-[10px] uppercase bg-orange-600 text-white shadow-md">ທັງໝົດ</button>
+                    <button onclick="filterMenu('ອາຫານ')" class="cat-btn px-6 py-2 rounded-lg font-black text-[10px] uppercase text-slate-400">ອາຫານ</button>
+                    <button onclick="filterMenu('ເຄື່ອງດື່ມ')" class="cat-btn px-6 py-2 rounded-lg font-black text-[10px] uppercase text-slate-400">ເຄື່ອງດື່ມ</button>
+                </nav>
+            </header>
+            <div id="menu-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 no-scrollbar overflow-y-auto pb-32"></div>
+        </main>
+
+            <aside class="w-[400px] bg-white border-l flex flex-col shadow-2xl">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="font-black text-slate-800 italic">ອໍເດີ້ໃນມື</h3>
+                <span id="cart-count-badge" class="bg-orange-100 text-orange-600 px-3 py-1 rounded-lg font-black text-[10px]">0 ລາຍການ</span>
+            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-3 no-scrollbar"></div>
+            <div class="p-8 border-t bg-slate-50 space-y-5">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <span class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">ລວມທັງໝົດ</span>
+                        <div class="flex items-baseline gap-1">
                             <span id="total-price" class="text-4xl font-black text-slate-900 tracking-tighter">0</span>
-                            <span class="text-orange-600 font-bold text-xs ml-1">KIP</span>
+                            <span class="text-orange-600 font-black text-xs">KIP</span>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="holdOrder()" class="bg-slate-800 text-white py-4 rounded-2xl font-black active-scale shadow-lg">ພັກບິນ</button>
-                        <button onclick="checkout()" class="bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-orange-200 active-scale text-lg">ໄລ່ເງິນ</button>
-                    </div>
                 </div>
-            </aside>
-        </main>
-    </div>
-
-    <div id="page-admin" class="hidden min-h-screen p-6 bg-slate-100 flex flex-col items-center">
-        <div class="max-w-md w-full bg-white p-8 rounded-[3.5rem] shadow-2xl border-b-8 border-slate-200">
-            <h2 class="text-xl font-black mb-6 text-slate-800 border-b pb-4 text-center italic">ເພີ່ມເມນູໃໝ່</h2>
-            <div class="space-y-4">
-                <input type="text" id="admin-name" placeholder="ຊື່ເມນູ" class="w-full p-4 bg-slate-50 rounded-2xl border-2 border-slate-100 outline-none focus:border-orange-500">
-                <input type="number" id="admin-price" placeholder="ລາຄາ (ກີບ)" class="w-full p-4 bg-slate-50 rounded-2xl border-2 border-slate-100 outline-none focus:border-orange-500">
-                <select id="admin-category" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-2 border-slate-100 outline-none">
-                    <option value="ອາຫານ">ອາຫານ</option>
-                    <option value="ເຄື່ອງດື່ມ">ເຄື່ອງດື່ມ</option>
-                </select>
-                <input type="text" id="admin-img" placeholder="ລິ້ງຮູບພາບ (URL)" class="w-full p-4 bg-slate-50 rounded-2xl border-2 border-slate-100 outline-none text-[10px] italic">
-                <button onclick="handleSaveMenu()" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-black shadow-xl active-scale">ບັນທຶກເມນູ</button>
-                <button onclick="showPage('page-table')" class="w-full text-slate-400 font-bold py-2 active-scale text-sm">ກັບຄືນ</button>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="saveCurrentOrder()" class="bg-slate-800 text-white py-4 rounded-2xl font-black active-scale text-xs uppercase">ບັນທຶກ</button>
+                    <button onclick="checkout()" class="bg-orange-600 text-white py-4 rounded-2xl font-black active-scale text-lg uppercase">ໄລ່ເງິນ</button>
+                </div>
+                <button onclick="clearTable()" class="w-full text-red-400 font-bold text-[9px] uppercase tracking-widest active-scale">ລ້າງລາຍການທັງໝົດ</button>
             </div>
-            <div id="admin-display-list" class="mt-8 space-y-2 overflow-y-auto max-h-48 pr-2"></div>
-        </div>
-    </div>
+        </aside>
+    </section>
 
-    <div id="page-report" class="hidden min-h-screen p-6 bg-slate-50">
-        <div class="max-w-2xl mx-auto">
-            <header class="flex justify-between items-center mb-10 text-slate-800">
-                <h2 class="text-3xl font-black italic">ຍອດຂາຍ</h2>
-                <button onclick="showPage('page-table')" class="bg-white px-6 py-3 rounded-2xl border-2 font-black active-scale shadow-sm">ກັບຄືນ</button>
+    <section id="page-admin" class="hidden min-h-screen bg-slate-100 p-8 overflow-y-auto">
+        <div class="max-w-4xl mx-auto">
+            <header class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-black text-slate-800 uppercase italic">ຈັດການເມນູ</h2>
+                <button onclick="showPage('page-table')" class="bg-white px-6 py-2 rounded-xl font-bold border active-scale shadow-sm">ກັບຄືນ</button>
             </header>
-            <div class="grid grid-cols-2 gap-6 mb-10 text-center">
-                 <div class="bg-slate-900 p-8 rounded-[3rem] text-white shadow-2xl">
-                    <p class="text-[10px] text-orange-400 font-black uppercase mb-1">ຍອດມື້ນີ້</p>
-                    <h1 id="report-total-today" class="text-2xl font-black italic">0 KIP</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border space-y-4">
+                    <input type="text" id="admin-name" placeholder="ຊື່ເມນູ" class="w-full p-4 bg-slate-50 rounded-xl border outline-none">
+                    <input type="text" id="admin-price" placeholder="ລາຄາ (ເຊັ່ນ: 40000,45000,50000)" class="w-full p-4 bg-slate-50 rounded-xl border outline-none">
+                    <select id="admin-category" class="w-full p-4 bg-slate-50 rounded-xl border font-bold">
+                        <option value="ອາຫານ">ອາຫານ</option>
+                        <option value="ເຄື່ອງດື່ມ">ເຄື່ອງດື່ມ</option>
+                    </select>
+                    <input type="text" id="admin-img" placeholder="URL ຮູບພາບ (ຖ້າມີ)" class="w-full p-4 bg-slate-50 rounded-xl border outline-none">
+                    <button onclick="handleSaveMenu()" class="w-full bg-orange-600 text-white py-4 rounded-xl font-black shadow-lg">ເພີ່ມເມນູ</button>
                 </div>
-                <div class="bg-white p-8 rounded-[3rem] border shadow-sm text-center">
-                    <p class="text-[10px] text-slate-400 font-black uppercase mb-1">ບິນທັງໝົດ</p>
-                    <h1 id="report-count-all" class="text-2xl font-black italic">0</h1>
-                </div>
+                <div id="admin-display-list" class="bg-white rounded-[2rem] border overflow-y-auto max-h-[500px] p-4 space-y-2"></div>
             </div>
-            <div id="report-daily-container" class="space-y-6 pb-32"></div>
         </div>
-    </div>
+    </section>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-4 rounded-[2rem] font-black text-sm hidden z-[100] shadow-2xl border-2 border-white/10 animate-fade-in"></div>
+    <section id="page-report" class="hidden min-h-screen bg-slate-50 p-8 overflow-y-auto">
+        <div class="max-w-5xl mx-auto">
+            <header class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-black text-slate-800 uppercase italic">ລາຍງານຍອດຂາຍ</h2>
+                <button onclick="showPage('page-table')" class="bg-white px-6 py-2 rounded-xl font-bold border active-scale">ກັບຄືນ</button>
+            </header>
+            <div id="report-summary" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"></div>
+            <div id="report-container" class="space-y-3"></div>
+        </div>
+    </section>
+
+    <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-3 rounded-full font-black text-[10px] hidden z-[200] shadow-2xl"></div>
 
     <script>
-        // Firebase Config (ຕົວເກົ່າຂອງເຈົ້າ)
+        // ຕັ້ງຄ່າ Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDrkORCwmsdCsdpH81Y40kaDpgrHU-U6ps",
             authDomain: "khaopiakpos.firebaseapp.com",
@@ -158,197 +128,278 @@
             projectId: "khaopiakpos",
             storageBucket: "khaopiakpos.firebasestorage.app",
             messagingSenderId: "51654913004",
-            appId: "1:51654913004:web:57eb6bc244c1918beaaec9",
-            measurementId: "G-FYB29D6N9D"
+            appId: "1:51654913004:web:57eb6bc244c1918beaaec9"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let allMenus = [], cart = [], currentTable = "", activeOrders = {}, currentCategory = "ທັງໝົດ";
+        let allMenus = [], cart = [], currentTable = "", currentCategory = "ທັງໝົດ", isChanged = false;
 
         function showPage(id) {
-            document.querySelectorAll('body > div').forEach(div => div.classList.add('hidden'));
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
-            if(id === 'page-table') listenToOrders();
+            if(id === 'page-table') listenTables();
             if(id === 'page-report') loadReports();
         }
 
         function checkLogin() {
-            if(document.getElementById('login-pass').value === 'jip1234') {
-                showPage('page-table');
-                document.getElementById('login-pass').value = "";
-            } else { alert("ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ!"); }
+            if(document.getElementById('login-pass').value === 'jip1234') showPage('page-table');
+            else alert("ລະຫັດຜ່ານຜິດ!");
         }
 
         function showToast(msg) {
-            const x = document.getElementById("toast");
-            x.innerText = msg; x.classList.remove('hidden');
-            setTimeout(() => { x.classList.add('hidden'); }, 2000);
+            const t = document.getElementById("toast");
+            t.innerText = msg; t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 1500);
         }
 
+        // --- ສ່ວນຈັດການເມນູ ແລະ ການສະແດງຜົນ ---
+        function renderMenus() {
+            const container = document.getElementById('menu-list');
+            const filtered = allMenus.filter(m => currentCategory === "ທັງໝົດ" || m.category === currentCategory);
+            
+            container.innerHTML = filtered.map(m => {
+                // ແຍກລາຄາ ແລະ ລ້າງຂໍ້ມູນໃຫ້ເປັນຕົວເລກບໍລິສຸດ
+                const priceArr = String(m.price).split(',').map(p => {
+                    const clean = p.replace(/[^0-9]/g, '');
+                    return clean ? parseInt(clean) : 0;
+                });
+
+                const isFood = m.category === 'ອາຫານ';
+                const p1 = priceArr[0] || 0;
+                const p2 = priceArr[1] || p1;
+                const p3 = priceArr[2] || p2;
+
+                return `
+                <div class="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col p-4">
+                    <div class="w-full h-24 bg-slate-50 rounded-2xl mb-3 flex items-center justify-center overflow-hidden">
+                        ${m.img ? `<img src="${m.img}" class="w-full h-full object-cover">` : `<i class="fas fa-utensils text-slate-200 text-3xl"></i>`}
+                    </div>
+                    <h4 class="font-black text-slate-800 text-[11px] mb-4 uppercase truncate">${m.name}</h4>
+                    <div class="grid ${isFood ? 'grid-cols-3' : 'grid-cols-1'} gap-2">
+                        ${isFood ? `
+                            <button onclick="addToCart('${m.name}', ${p1}, 'ນ້ອຍ')" class="bg-orange-50 text-orange-600 text-[10px] font-black py-3 rounded-xl border border-orange-100 active-scale">ນ້ອຍ</button>
+                            <button onclick="addToCart('${m.name}', ${p2}, 'ກາງ')" class="bg-orange-50 text-orange-600 text-[10px] font-black py-3 rounded-xl border border-orange-100 active-scale">ກາງ</button>
+                            <button onclick="addToCart('${m.name}', ${p3}, 'ໃຫຍ່')" class="bg-orange-50 text-orange-600 text-[10px] font-black py-3 rounded-xl border border-orange-100 active-scale">ໃຫຍ່</button>
+                        ` : `
+                            <button onclick="addToCart('${m.name}', ${p1}, 'ປົກກະຕິ')" class="w-full bg-slate-900 text-white text-[10px] font-black py-3 rounded-xl active-scale shadow-md">
+                                ${p1.toLocaleString()} KIP
+                            </button>
+                        `}
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // --- ສ່ວນການຄຳນວນໃນກະຕ່າ (ບັງຄັບເປັນ Number 100%) ---
+        function addToCart(name, price, size) {
+            // ແປງລາຄາໃຫ້ເປັນ Number ທີ່ແນ່ນອນ
+            const cleanPrice = Number(price);
+            if (isNaN(cleanPrice)) return;
+
+            const label = size === 'ປົກກະຕິ' ? name : `${name} (${size})`;
+            const itemKey = `${name}-${cleanPrice}-${size}`; 
+
+            const foundIdx = cart.findIndex(i => `${i.baseName}-${i.price}-${i.size}` === itemKey);
+            
+            if (foundIdx > -1) {
+                cart[foundIdx].qty = Number(cart[foundIdx].qty) + 1;
+            } else {
+                cart.push({
+                    name: label,
+                    baseName: name,
+                    price: cleanPrice,
+                    qty: 1,
+                    size: size
+                });
+            }
+            isChanged = true;
+            updateCartUI();
+            showToast(`+ ${label}`);
+        }
+
+        function updateQty(idx, delta) {
+            const newQty = Number(cart[idx].qty) + delta;
+            if (newQty <= 0) cart.splice(idx, 1);
+            else cart[idx].qty = newQty;
+            isChanged = true;
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            let total = 0;
+            
+            container.innerHTML = cart.map((item, idx) => {
+                const subTotal = Number(item.price) * Number(item.qty);
+                total += subTotal;
+                return `
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex justify-between items-center">
+                    <div class="flex-1 pr-2">
+                        <p class="font-black text-slate-800 text-[11px]">${item.name}</p>
+                        <p class="text-orange-600 font-bold text-[9px] mt-1">${item.price.toLocaleString()} KIP</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
+                        <button onclick="updateQty(${idx}, -1)" class="w-7 h-7 flex items-center justify-center text-slate-300 active-scale"><i class="fas fa-minus text-[8px]"></i></button>
+                        <span class="font-black text-[10px] w-5 text-center">${item.qty}</span>
+                        <button onclick="updateQty(${idx}, 1)" class="w-7 h-7 flex items-center justify-center text-slate-900 active-scale"><i class="fas fa-plus text-[8px]"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            document.getElementById('total-price').innerText = total.toLocaleString();
+            document.getElementById('cart-count-badge').innerText = `${cart.length} ລາຍການ`;
+        }
+
+        // --- ລະບົບຖານຂໍ້ມູນ ---
+        async function saveCurrentOrder() {
+            if (!currentTable) return;
+            await db.ref('activeOrders/' + currentTable).set({
+                table: currentTable,
+                items: cart,
+                timestamp: Date.now()
+            });
+            isChanged = false;
+            showToast("✅ ບັນທຶກແລ້ວ");
+        }
+
+        async function backToTable() {
+            if(isChanged && cart.length > 0) await saveCurrentOrder();
+            showPage('page-table');
+        }
+
+        async function checkout() {
+            if(cart.length === 0) return;
+            let total = 0;
+            cart.forEach(i => total += (Number(i.price) * Number(i.qty)));
+
+            if(confirm(`ໄລ່ເງິນ ${currentTable}: ${total.toLocaleString()} KIP?`)) {
+                await db.ref('sales').push({
+                    table: currentTable,
+                    total: total,
+                    items: cart.map(i => `${i.name} x${i.qty}`).join(', '),
+                    date: new Date().toLocaleDateString(),
+                    timestamp: Date.now()
+                });
+                await db.ref('activeOrders/' + currentTable).remove();
+                cart = []; isChanged = false;
+                showPage('page-table');
+                showToast("💰 ຊຳລະເງິນສຳເລັດ");
+            }
+        }
+
+        async function clearTable() {
+            if(confirm("ລຶບລາຍການທັງໝົດໃນໂຕະນີ້?")) {
+                await db.ref('activeOrders/' + currentTable).remove();
+                cart = []; isChanged = false;
+                showPage('page-table');
+            }
+        }
+
+        // --- Admin & Stats ---
         async function handleSaveMenu() {
             const name = document.getElementById('admin-name').value;
             const price = document.getElementById('admin-price').value;
             const category = document.getElementById('admin-category').value;
             const img = document.getElementById('admin-img').value;
-            if (name && price) {
+            if(name && price) {
                 const ref = db.ref('menus').push();
-                await ref.set({ id: ref.key, name, price: Number(price), category, img: img || '' });
-                showToast("✅ ບັນທຶກສຳເລັດ");
-                document.getElementById('admin-name').value = ""; document.getElementById('admin-price').value = ""; document.getElementById('admin-img').value = "";
+                await ref.set({ id: ref.key, name, price, category, img });
+                document.getElementById('admin-name').value = '';
+                document.getElementById('admin-price').value = '';
+                showToast("✅ ເພີ່ມແລ້ວ");
             }
         }
 
-        function loadMenus() {
-            db.ref('menus').on('value', snap => {
-                allMenus = snap.val() ? Object.values(snap.val()) : [];
-                renderMenus(); renderAdminMenus();
-            });
-        }
-
-        function renderMenus() {
-            const filtered = allMenus.filter(m => currentCategory === "ທັງໝົດ" || m.category === currentCategory);
-            const container = document.getElementById('menu-list');
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full py-20 text-center text-slate-300 font-bold italic">ບໍ່ມີລາຍການໃນໝວດນີ້</div>`;
-                return;
-            }
-            container.innerHTML = filtered.map(m => `
-                <div onclick="addToCart('${m.name}', ${m.price})" class="bg-white rounded-[2rem] shadow-sm border border-slate-100 active-scale overflow-hidden text-center flex flex-col h-full hover:shadow-md transition-shadow">
-                    <div class="w-full h-24 md:h-36 bg-slate-50 flex items-center justify-center overflow-hidden text-slate-300">
-                        ${m.img ? `<img src="${m.img}" class="w-full h-full object-cover">` : `<i class="fas fa-image text-3xl"></i>`}
-                    </div>
-                    <div class="p-4">
-                        <div class="font-black text-slate-800 text-[11px] md:text-xs truncate uppercase leading-tight">${m.name}</div>
-                        <div class="text-orange-600 font-black text-xs mt-1">${m.price.toLocaleString()}</div>
-                    </div>
-                </div>`).join('');
-        }
-
-        function addToCart(name, price) {
-            const item = cart.find(c => c.name === name);
-            if(item) item.qty++; else cart.push({ name, price, qty: 1 });
-            renderCart();
-        }
-
-        function updateQty(idx, delta) {
-            cart[idx].qty += delta;
-            if (cart[idx].qty <= 0) cart.splice(idx, 1);
-            renderCart();
-        }
-
-        function renderCart() {
-            let total = 0;
-            document.getElementById('cart-items').innerHTML = cart.map((item, idx) => {
-                const itemTotal = item.price * item.qty;
-                total += itemTotal;
-                return `
-                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <div class="flex-1 min-w-0 pr-3 text-left">
-                        <p class="font-black text-slate-800 text-xs uppercase">${item.name}</p>
-                        <p class="text-[10px] text-slate-400 font-bold mt-1">
-                            ${item.price.toLocaleString()} x ${item.qty} = <span class="text-orange-600">${itemTotal.toLocaleString()}</span>
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="updateQty(${idx}, -1)" class="w-8 h-8 bg-white border rounded-xl text-slate-400 active-scale shadow-sm"><i class="fas fa-minus text-[10px]"></i></button>
-                        <span class="font-black text-xs text-slate-700 w-4 text-center">${item.qty}</span>
-                        <button onclick="updateQty(${idx}, 1)" class="w-8 h-8 bg-slate-900 rounded-xl text-white active-scale shadow-md"><i class="fas fa-plus text-[10px]"></i></button>
-                    </div>
-                </div>`;
-            }).join('');
-            document.getElementById('total-price').innerText = total.toLocaleString();
-            document.getElementById('cart-count').innerText = cart.length;
-        }
-
-        async function holdOrder() {
-            if(cart.length === 0) return;
-            await db.ref('activeOrders/' + currentTable).set({ items: cart, table: currentTable });
-            showToast("📌 ພັກບິນສຳເລັດ"); showPage('page-table');
-        }
-
-        async function clearTable() {
-            if(confirm(`ທ່ານຕ້ອງການລຶບອໍເດີທັງໝົດຂອງ ${currentTable} ແລະ ໃຫ້ເປັນໂຕະວ່າງແມ່ນບໍ?`)) {
-                await db.ref('activeOrders/' + currentTable).remove();
-                cart = []; renderCart(); showToast("🗑️ ລ້າງໂຕະສຳເລັດ"); showPage('page-table');
-            }
-        }
-
-        async function checkout() {
-            if(cart.length === 0) return;
-            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            if(confirm(`ຢືນຢັນການຊຳລະ: ${total.toLocaleString()} KIP?`)) {
-                await db.ref('sales').push({ table: currentTable, total: total, items: cart.map(i => `${i.name} (x${i.qty})`).join(', '), date: new Date().toLocaleDateString(), timestamp: Date.now() });
-                await db.ref('activeOrders/' + currentTable).remove();
-                showToast("💰 ຊຳລະເງິນສຳເລັດ"); showPage('page-table');
-            }
-        }
-
-        function listenToOrders() { db.ref('activeOrders').on('value', snap => { activeOrders = snap.val() || {}; renderTables(); }); }
-        
-        function renderTables() {
-            const grid = document.getElementById('table-grid'); grid.innerHTML = '';
-            for(let i=1; i<=12; i++) {
-                const tableName = `ໂຕະ ${i}`; const isActive = activeOrders[tableName];
-                grid.innerHTML += `
-                <div onclick="openPOS('${tableName}')" class="${isActive ? 'bg-orange-600 text-white scale-105 shadow-2xl shadow-orange-200' : 'bg-white text-slate-800'} p-10 rounded-[2.5rem] shadow-sm text-center font-black cursor-pointer transition-all border border-slate-100 active-scale relative group overflow-hidden">
-                    ${isActive ? '<span class="absolute top-3 right-3 w-3 h-3 bg-white rounded-full animate-pulse"></span>' : ''}
-                    <p class="text-2xl italic uppercase tracking-tighter">${tableName}</p>
-                    <p class="text-[9px] uppercase mt-2 opacity-50 tracking-[0.2em] font-bold">${isActive ? 'ບໍ່ວ່າງ' : 'ວ່າງ'}</p>
-                </div>`;
-            }
-        }
-
-        function filterMenu(cat) {
-            currentCategory = cat;
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('bg-orange-600', 'text-white', 'shadow-lg');
-                btn.classList.add('bg-slate-100', 'text-slate-500');
-                if(btn.innerText.includes(cat)) {
-                    btn.classList.remove('bg-slate-100', 'text-slate-500');
-                    btn.classList.add('bg-orange-600', 'text-white', 'shadow-lg');
-                }
-            });
-            renderMenus();
-        }
-
-        function openPOS(tableName) { currentTable = tableName; document.getElementById('pos-table-name').innerText = tableName; cart = activeOrders[tableName] ? activeOrders[tableName].items : []; renderCart(); showPage('page-pos'); }
-        function renderAdminMenus() { document.getElementById('admin-display-list').innerHTML = allMenus.map(m => `<div class="flex justify-between items-center bg-slate-50 p-3 rounded-2xl mb-1 text-[10px] font-black border border-slate-100"><span>${m.name}</span><button onclick="deleteMenu('${m.id}')" class="text-red-400 p-2"><i class="fas fa-trash-alt"></i></button></div>`).join(''); }
-        async function deleteMenu(id) { if(confirm("ລຶບເມນູນີ້?")) await db.ref('menus/' + id).remove(); }
         function loadReports() {
             db.ref('sales').on('value', snap => {
-                const container = document.getElementById('report-daily-container');
-                if(!snap.val()) { container.innerHTML = ""; return; }
-                const sales = Object.entries(snap.val()).map(([id, val]) => ({ id, ...val })).sort((a, b) => b.timestamp - a.timestamp);
+                const data = snap.val();
+                if(!data) return;
+                const sales = Object.values(data).sort((a,b) => b.timestamp - a.timestamp);
                 const today = new Date().toLocaleDateString();
-                let totalT = 0;
-                const grouped = sales.reduce((acc, sale) => {
-                    if(!acc[sale.date]) acc[sale.date] = { total: 0, items: [] };
-                    acc[sale.date].total += sale.total; acc[sale.date].items.push(sale);
-                    if(sale.date === today) totalT += sale.total;
-                    return acc;
-                }, {});
-                document.getElementById('report-total-today').innerText = totalT.toLocaleString() + " KIP";
-                document.getElementById('report-count-all').innerText = sales.length;
-                container.innerHTML = Object.entries(grouped).map(([date, data]) => `
-                    <div class="bg-white rounded-[2.5rem] shadow-sm border overflow-hidden">
-                        <div class="bg-slate-900 p-5 flex justify-between items-center text-white text-[11px] font-black uppercase">
-                            <span>ວັນທີ ${date}</span>
-                            <span class="text-orange-400 tracking-tighter text-lg">${data.total.toLocaleString()} KIP</span>
+                let todayTotal = 0, allTotal = 0;
+
+                sales.forEach(s => {
+                    const t = Number(s.total);
+                    allTotal += t;
+                    if(s.date === today) todayTotal += t;
+                });
+
+                document.getElementById('report-summary').innerHTML = `
+                    <div class="bg-slate-900 p-6 rounded-3xl text-white shadow-xl">
+                        <p class="text-[9px] font-black uppercase text-orange-400">ຍອດມື້ນີ້</p>
+                        <h2 class="text-2xl font-black italic">${todayTotal.toLocaleString()}</h2>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border shadow-sm text-center">
+                        <p class="text-[9px] font-black uppercase text-slate-400">ຈຳນວນບິນ</p>
+                        <h2 class="text-2xl font-black italic text-slate-800">${sales.length}</h2>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border shadow-sm">
+                        <p class="text-[9px] font-black uppercase text-slate-400">ຍອດລວມທັງໝົດ</p>
+                        <h2 class="text-2xl font-black italic text-orange-600">${allTotal.toLocaleString()}</h2>
+                    </div>`;
+
+                document.getElementById('report-container').innerHTML = sales.map(s => `
+                    <div class="bg-white p-4 rounded-2xl border flex justify-between items-center shadow-sm">
+                        <div class="text-left">
+                            <span class="bg-orange-50 text-orange-600 px-3 py-1 rounded-full text-[8px] font-black">${s.table}</span>
+                            <p class="text-[9px] text-slate-500 mt-2 font-bold">${s.items}</p>
+                            <p class="text-[7px] text-slate-300 mt-1">${new Date(s.timestamp).toLocaleString()}</p>
                         </div>
-                        <div class="divide-y divide-slate-50">${data.items.map(s => `
-                            <div class="p-5 flex justify-between items-center">
-                                <div class="flex-1 pr-4 text-left">
-                                    <span class="text-[9px] bg-orange-100 text-orange-600 px-3 py-1 rounded-full font-black uppercase">${s.table}</span>
-                                    <p class="text-slate-400 text-[10px] mt-2 font-bold">${s.items}</p>
-                                </div>
-                                <p class="font-black text-slate-800 text-sm">${s.total.toLocaleString()}</p>
-                            </div>`).join('')}</div>
+                        <p class="font-black text-slate-800">${Number(s.total).toLocaleString()}</p>
                     </div>`).join('');
             });
         }
 
-        loadMenus(); listenToOrders();
+        function filterMenu(c) {
+            currentCategory = c;
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                const isMatch = b.innerText.includes(c);
+                b.className = isMatch ? 'cat-btn px-6 py-2 rounded-lg font-black text-[10px] uppercase bg-orange-600 text-white shadow-lg' : 'cat-btn px-6 py-2 rounded-lg font-black text-[10px] uppercase text-slate-400';
+            });
+            renderMenus();
+        }
+
+        function listenTables() {
+            db.ref('activeOrders').on('value', snap => {
+                const data = snap.val() || {};
+                const grid = document.getElementById('table-grid');
+                grid.innerHTML = '';
+                for(let i=1; i<=12; i++) {
+                    const name = `ໂຕະ ${i}`;
+                    const active = data[name];
+                    grid.innerHTML += `
+                    <div onclick="openPOS('${name}')" class="${active ? 'bg-orange-600 text-white shadow-2xl scale-105 border-transparent' : 'bg-white text-slate-800 border-slate-100'} p-8 rounded-[2rem] shadow-sm text-center font-black active-scale border transition-all cursor-pointer relative overflow-hidden">
+                        <p class="text-xl italic tracking-tighter uppercase">${name}</p>
+                        <p class="text-[8px] uppercase opacity-50 mt-1">${active ? 'ມີລູກຄ້າ' : 'ໂຕະວ່າງ'}</p>
+                    </div>`;
+                }
+            });
+        }
+
+        function openPOS(name) {
+            currentTable = name;
+            document.getElementById('pos-table-name').innerText = name;
+            db.ref('activeOrders/' + name).once('value', snap => {
+                const d = snap.val();
+                cart = (d && d.items) ? d.items.map(i => ({...i, price: Number(i.price), qty: Number(i.qty)})) : [];
+                isChanged = false;
+                updateCartUI();
+                showPage('page-pos');
+            });
+        }
+
+        db.ref('menus').on('value', snap => {
+            allMenus = snap.val() ? Object.values(snap.val()) : [];
+            renderMenus();
+            document.getElementById('admin-display-list').innerHTML = allMenus.map(m => `
+                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-xl border mb-2">
+                    <span class="text-[10px] font-black">${m.name}</span>
+                    <button onclick="db.ref('menus/${m.id}').remove()" class="text-red-400 p-2 hover:bg-red-50 rounded-lg"><i class="fas fa-trash-alt text-xs"></i></button>
+                </div>`).join('');
+        });
+
+        listenTables();
     </script>
 </body>
 </html>
